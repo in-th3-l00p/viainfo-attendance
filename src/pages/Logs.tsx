@@ -56,7 +56,7 @@ export default function Logs() {
       lastDocRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
       setHasMore(querySnapshot.docs.length === LOGS_PER_PAGE);
     } catch (error) {
-      toast.error('Eroare la încărcarea jurnalului');
+      toast.error('Eroare la încărcarea jurnalului: ' + error);
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +84,7 @@ export default function Logs() {
       lastDocRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
       setHasMore(querySnapshot.docs.length === LOGS_PER_PAGE);
     } catch (error) {
-      toast.error('Eroare la încărcarea mai multor înregistrări');
+      toast.error('Eroare la încărcarea mai multor înregistrări: ' + error);
     } finally {
       setIsLoading(false);
     }

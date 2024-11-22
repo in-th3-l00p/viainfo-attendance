@@ -32,7 +32,9 @@ export function useAttendees() {
       }
     );
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe()
+    };
   }, []);
 
   return { attendees, isLoading };

@@ -1,46 +1,25 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { toast } from 'react-hot-toast';
-import { Users, Check, X, Loader2 } from 'lucide-react';
+import { Check, X, Loader2 } from 'lucide-react';
 import { logAction } from '../lib/logger';
 import { ViaInfoLogo } from '../components/ViaInfoLogo';
-
-interface Attendee {
-  id: string;
-  name: string;
-  email: string;
-  isPresent: boolean;
-}
+import { useAttendees } from '../hooks/useAttendees';
 
 interface LoadingStates {
   [key: string]: boolean;
 }
 
 export default function Home() {
-  const [attendees, setAttendees] = useState<Attendee[]>([]);
+  const {attendees, isLoading: attendeesLoading} = useAttendees();
   const [isLoading, setIsLoading] = useState(true);
   const [loadingStates, setLoadingStates] = useState<LoadingStates>({});
 
   useEffect(() => {
-    fetchAttendees();
-  }, []);
-
-  const fetchAttendees = async () => {
-    setIsLoading(true);
-    try {
-      const querySnapshot = await getDocs(collection(db, 'attendees'));
-      const attendeesList = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as Attendee));
-      setAttendees(attendeesList);
-    } catch (error) {
-      toast.error('Eroare la încărcarea participanților');
-    } finally {
+    if (!attendeesLoading)
       setIsLoading(false);
-    }
-  };
+  }, [attendeesLoading])
 
   const togglePresence = async (id: string, name: string, currentStatus: boolean) => {
     setLoadingStates(prev => ({ ...prev, [id]: true }));
@@ -53,9 +32,8 @@ export default function Home() {
         `Prezență marcată pentru ${name} (${id}): ${currentStatus ? 'absent' : 'prezent'}`,
         null
       );
-      fetchAttendees();
     } catch (error) {
-      toast.error('Eroare la actualizarea prezenței');
+      toast.error('Eroare la actualizarea prezenței: ' + error);
     } finally {
       setLoadingStates(prev => ({ ...prev, [id]: false }));
     }
