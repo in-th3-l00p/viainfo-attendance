@@ -71,9 +71,6 @@ export default function Home() {
                   Nume
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Prezență
                 </th>
               </tr>
@@ -83,9 +80,6 @@ export default function Home() {
                 <tr key={attendee.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {attendee.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {attendee.email}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
