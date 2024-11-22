@@ -13,6 +13,7 @@ export default function LoginForm() {
     try {
       await login(email, password);
       toast.success('Autentificare reușită!');
+      window.location.href = "/dashboard";      
     } catch (error) {
       toast.error('Eroare la autentificare. Verificați datele introduse.');
     }
